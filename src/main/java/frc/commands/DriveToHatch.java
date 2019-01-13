@@ -4,36 +4,38 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 
 /**
- * Aligns the robot with a target using the Limelight
+ * Drives straight until a certain distance using an ultrasonic
  */
-public class AlignWithHatch extends PIDCommand {
+public class DriveToHatch extends PIDCommand {
 
-    // The total degrees off we can call "on target"
+    // The total inches off we can call "on target"
     double tolerance = 0.5;
+    // How many inches away we want to drive until
+    double setpoint = 4;
     // The current target count
     double onTargetCount = 0;
     // The max target count
     double maxTargetCount = 7.5;
 
-    public AlignWithHatch() {
+    public DriveToHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.03, 0.005, 0.05);
+        super(0.01, 0.0, 0.0);
         // Require the drive train
         requires(Robot.driveTrain);
     }
 
     @Override
     protected void initialize() {
-        // The min and max values the Limelight can input
-        getPIDController().setInputRange(-45, 45);
+        // The min and max values the ultrasonic can input
+        getPIDController().setInputRange(0, 100);
         // The min and max values we want the PIDCommand to output
         getPIDController().setOutputRange(-1, 1);
         // The tolerance that is considered "on target"
         getPIDController().setAbsoluteTolerance(tolerance);
         // The robot's values will wrap around
         getPIDController().setContinuous();
-        // We want to get to 0 on the Limelight
-        getPIDController().setSetpoint(0);
+        // We want to get to 4 on the ultrasonic sensor
+        getPIDController().setSetpoint(setpoint);
     }
 
     @Override
@@ -44,28 +46,28 @@ public class AlignWithHatch extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        // If we are on target or if we don't have a target anymore
-        if(getPIDController().onTarget() || !Robot.limelight.getHasTarget()) {
+        // If we are on target
+        if(getPIDController().onTarget()) {
             // Add a target count
             onTargetCount++;
         }else {
             // If not, target count is reset
             onTargetCount = 0;
         }
-        // We are finished once the target count hits the max target count
+        // We are finished once the target count hits the max count
         return (onTargetCount > maxTargetCount);
     }
 
     @Override
     protected double returnPIDInput() {
-        // Input the X offset from the Limelight
-        return Robot.limelight.getXOffset();
+        // Input inches from the ultrasonic
+        return Robot.ultrasonic.getInches();
     }
 
     @Override
     protected void usePIDOutput(double output) {
-        // Output the calculated speeds to turn()
-        Robot.driveTrain.turn(output);
+        // Output the calculated speeds to driveForward()
+        Robot.driveTrain.driveStraightForward(output);
     }
 
 }

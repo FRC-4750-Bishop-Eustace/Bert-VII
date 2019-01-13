@@ -4,19 +4,25 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.Robot;
 
+/**
+ * Drives the drive train with a joystick
+ */
 public class TankDrive extends Command {
 
     public TankDrive() {
+        // Require the drive train
         requires(Robot.driveTrain);
     }
 
     @Override
     protected void execute() {
-        Robot.driveTrain.joystickDrive(OI.driveStick.getX(), OI.driveStick.getThrottle());
+        // Pass the joystick values to joystickDrive()
+        Robot.driveTrain.joystickDrive(-OI.driveStick.getY(), OI.driveStick.getThrottle());
     }
 
     @Override
     protected boolean isFinished() {
+        // Never finish
         return false;
     }
 
