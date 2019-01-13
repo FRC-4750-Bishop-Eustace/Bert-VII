@@ -1,51 +1,101 @@
 package frc.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.commands.AlignWithHatch;
+import frc.commands.TankDrive;
+import frc.robot.Robot;
 
+/**
+ * This class manages the drive train
+ */
 public class DriveTrain extends Subsystem {
 
-    WPI_TalonSRX leftMotorOne,
-                 leftMotorTwo,
-                 leftMotorThree,
-                 rightMotorOne,
-                 rightMotorTwo,
-                 rightMotorThree;
-
-    SpeedControllerGroup leftMotors,
-                         rightMotors;
-
+    // Create motors
+    WPI_TalonSRX leftMotorOne, leftMotorTwo, leftMotorThree, rightMotorOne, rightMotorTwo, rightMotorThree;
+    // Create motor groups
+    SpeedControllerGroup leftMotors, rightMotors;
+    // Create drive
     DifferentialDrive robotDrive;
+
+    // The total degrees off we can call "on target"
+    double tolerance = 1;
 
     public DriveTrain(int leftMotorOneId, int leftMotorTwoId, int leftMotorThreeId, int rightMotorOneId, int rightMotorTwoId, int rightMotorThreeId) {
         leftMotorOne = new WPI_TalonSRX(leftMotorOneId);
         leftMotorTwo = new WPI_TalonSRX(leftMotorTwoId);
-        leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
+        //leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
         rightMotorOne = new WPI_TalonSRX(rightMotorOneId);
         rightMotorTwo = new WPI_TalonSRX(rightMotorTwoId);
-        rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
+        //rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
 
-        leftMotors = new SpeedControllerGroup(leftMotorOne, leftMotorTwo, leftMotorThree);
-        rightMotors = new SpeedControllerGroup(rightMotorOne, rightMotorTwo, rightMotorThree);
+        leftMotorTwo.follow(leftMotorOne);
+        //leftMotorThree.follow(leftMotorOne);
+        rightMotorTwo.follow(rightMotorOne);
+        //rightMotorThree.follow(rightMotorOne);
 
-        robotDrive = new DifferentialDrive(leftMotors, rightMotors);
+        robotDrive = new DifferentialDrive(leftMotorOne, rightMotorOne);
+        // Stop "output not updated often enough" error from printing
+        robotDrive.setSafetyEnabled(false);
     }
 
+    /**
+     * Passes speed and rotate values to the drive train
+     * 
+     * @param speed + is forward, - is backward
+     * @param rotate + is right, - is left
+     */
     public void joystickDrive(double speed, double rotate) {
         robotDrive.arcadeDrive(speed, rotate);
     }
 
+    /**
+     * Turns the drive train
+     * 
+     * @param speed + is right, - is left
+     */
     public void turn(double speed) {
-        robotDrive.arcadeDrive(0, speed);
+        leftMotorOne.set(ControlMode.PercentOutput, -speed);
+        rightMotorOne.set(ControlMode.PercentOutput, -speed);
+    }
+
+    /**
+     * Drive the drive train straight forward using the imu
+     * 
+     * @param speed + is forward, - is backward
+     */
+    public void driveStraightForward(double speed) {
+        // If the current angle is greater than the desired angle + tolerance 
+        if(Robot.imu.getAngle() > Robot.imu.getCommandedHeading() + tolerance) {
+            // Turn back left
+            rightMotorOne.set(ControlMode.PercentOutput, speed + .05);
+            leftMotorOne.set(ControlMode.PercentOutput, speed - .05);
+        // If the current angle is less than the desired angle - tolerance
+        }else if(Robot.imu.getAngle() < Robot.imu.getCommandedHeading() - tolerance) {
+            // Turn back right 
+            rightMotorOne.set(ControlMode.PercentOutput, speed - .05);
+            leftMotorOne.set(ControlMode.PercentOutput, speed + .05);
+        }else {
+            // Otherwise, go straight forward
+            leftMotorOne.set(ControlMode.PercentOutput, speed);
+            rightMotorOne.set(ControlMode.PercentOutput, -speed);
+        }
+    }
+
+    /**
+     * Brakes all motors on the drive train
+     */
+    public void brake() {
+        leftMotorOne.stopMotor();
+        rightMotorOne.stopMotor();
     }
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new AlignWithHatch());
+        setDefaultCommand(new TankDrive());
     }
 
 }
