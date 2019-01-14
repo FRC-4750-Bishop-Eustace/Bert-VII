@@ -17,6 +17,10 @@ public class RobotMap {
     public static final int ULTRASONIC_TRIGGER = 8;
     public static final int ULTRASONIC_ECHO = 9;
 
+    // Digital sensor ports
+    public static final int HATCH_SENSOR = 0;
+    public static final int CARGO_SENSOR = 1;
+
     // Hatch piston IDs
     public static final int HATCH_FORWARD_ID = 0;
     public static final int HATCH_REVERSE_ID = 1;
