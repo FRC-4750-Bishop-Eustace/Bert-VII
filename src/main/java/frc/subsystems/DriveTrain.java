@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.commands.TankDrive;
-import frc.robot.Robot;
 
 /**
  * This class manages the drive train
@@ -22,7 +21,7 @@ public class DriveTrain extends Subsystem {
     DifferentialDrive robotDrive;
 
     // The total degrees off we can call "on target"
-    double tolerance = 1;
+    double tolerance = 0.5;
 
     public DriveTrain(int leftMotorOneId, int leftMotorTwoId, int leftMotorThreeId, int rightMotorOneId, int rightMotorTwoId, int rightMotorThreeId) {
         leftMotorOne = new WPI_TalonSRX(leftMotorOneId);
@@ -68,21 +67,8 @@ public class DriveTrain extends Subsystem {
      * @param speed + is forward, - is backward
      */
     public void driveStraightForward(double speed) {
-        // If the current angle is greater than the desired angle + tolerance 
-        if(Robot.imu.getAngle() > Robot.imu.getCommandedHeading() + tolerance) {
-            // Turn back left
-            rightMotorOne.set(ControlMode.PercentOutput, speed + .05);
-            leftMotorOne.set(ControlMode.PercentOutput, speed - .05);
-        // If the current angle is less than the desired angle - tolerance
-        }else if(Robot.imu.getAngle() < Robot.imu.getCommandedHeading() - tolerance) {
-            // Turn back right 
-            rightMotorOne.set(ControlMode.PercentOutput, speed - .05);
-            leftMotorOne.set(ControlMode.PercentOutput, speed + .05);
-        }else {
-            // Otherwise, go straight forward
-            leftMotorOne.set(ControlMode.PercentOutput, speed);
-            rightMotorOne.set(ControlMode.PercentOutput, -speed);
-        }
+        leftMotorOne.set(ControlMode.PercentOutput, -speed);
+        rightMotorOne.set(ControlMode.PercentOutput, speed);
     }
 
     /**
