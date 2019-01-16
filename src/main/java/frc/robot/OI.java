@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.commands.AlignWithHatch;
 import frc.commands.DriveToHatch;
-import frc.commands.ToggleHatch;
+//import frc.commands.ToggleHatch;
 
 /**
  * Handles all of the joystick inputs
@@ -26,6 +26,6 @@ public class OI {
         // When released, drive to the hatch
         driveToButton.whenReleased(new DriveToHatch());
         // When released, toggle hatch pistons
-        toggleHatchButton.whenReleased(new ToggleHatch());
+        //toggleHatchButton.whenReleased(new ToggleHatch());
     }
 }

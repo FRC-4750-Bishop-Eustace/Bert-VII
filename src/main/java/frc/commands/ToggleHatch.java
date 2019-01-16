@@ -10,13 +10,13 @@ public class ToggleHatch extends InstantCommand {
 
     public ToggleHatch() {
         // Require the hatch
-        requires(Robot.hatch);
+        //requires(Robot.hatch);
     }
 
     @Override
     protected void initialize() {
         // Toggle the hatch pistons
-        Robot.hatch.toggle();
+        //Robot.hatch.toggle();
     }
 
 }

@@ -11,7 +11,7 @@ public class DriveToHatch extends PIDCommand {
     // The total inches off we can call "on target"
     double tolerance = 0.5;
     // How many inches away we want to drive until
-    double setpoint = 4;
+    double setpoint = 12;
     // The current target count
     double onTargetCount = 0;
     // The max target count
@@ -19,21 +19,19 @@ public class DriveToHatch extends PIDCommand {
 
     public DriveToHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.01, 0.0, 0.0);
+        super(0.012, 0.0002, 0.0);
         // Require the drive train
         requires(Robot.driveTrain);
+        // Set the commanded heading
+        Robot.imu.setCommandedHeading(Robot.imu.getAngle());
     }
 
     @Override
     protected void initialize() {
-        // The min and max values the ultrasonic can input
-        getPIDController().setInputRange(0, 100);
         // The min and max values we want the PIDCommand to output
         getPIDController().setOutputRange(-1, 1);
         // The tolerance that is considered "on target"
         getPIDController().setAbsoluteTolerance(tolerance);
-        // The robot's values will wrap around
-        getPIDController().setContinuous();
         // We want to get to 4 on the ultrasonic sensor
         getPIDController().setSetpoint(setpoint);
     }
@@ -60,6 +58,7 @@ public class DriveToHatch extends PIDCommand {
 
     @Override
     protected double returnPIDInput() {
+        System.out.println(Robot.ultrasonic.getInches());
         // Input inches from the ultrasonic
         return Robot.ultrasonic.getInches();
     }

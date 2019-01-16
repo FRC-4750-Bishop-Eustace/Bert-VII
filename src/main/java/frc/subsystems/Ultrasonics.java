@@ -1,5 +1,7 @@
 package frc.subsystems;
 
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -7,7 +9,7 @@ import frc.robot.RobotMap;
 /**
  * This class is the interface to the ultrasonic hardware
  */
-public class Ultrasonics extends Subsystem {
+public class Ultrasonics extends Subsystem implements PIDSource {
 
 	// Sensors
 	public Ultrasonic ultrasonic;
@@ -40,5 +42,20 @@ public class Ultrasonics extends Subsystem {
 	@Override
 	public void initDefaultCommand() {
 		// No default command
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		return PIDSourceType.kRate;
+	}
+
+	@Override
+	public double pidGet() {
+		return 0;
 	}
 }
