@@ -1,12 +1,14 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.subsystems.DigitalSensor;
 import frc.subsystems.DriveTrain;
+import frc.subsystems.Hatch;
 //import frc.subsystems.Hatch;
 import frc.subsystems.IMU;
 import frc.subsystems.Limelight;
+import frc.subsystems.PressureSensor;
 import frc.subsystems.Ultrasonics;
 
 public class Robot extends TimedRobot {
@@ -15,12 +17,13 @@ public class Robot extends TimedRobot {
   public static Limelight limelight = new Limelight();
   public static Ultrasonics ultrasonic = new Ultrasonics();
   public static IMU imu = new IMU();
-  public static DigitalSensor hatchDetector = new DigitalSensor(RobotMap.HATCH_SENSOR);
-  public static DigitalSensor cargoDetector = new DigitalSensor(RobotMap.CARGO_SENSOR);
+  public static PressureSensor pressureSensor = new PressureSensor();
+  // public static ObjectSensor hatchDetector = new ObjectSensor(RobotMap.HATCH_SENSOR);
+  // public static ObjectSensor cargoDetector = new ObjectSensor(RobotMap.CARGO_SENSOR);
 
   // Initialize mechanisms
   public static DriveTrain driveTrain = new DriveTrain(RobotMap.LEFT_MOTOR_ONE_ID, RobotMap.LEFT_MOTOR_TWO_ID, RobotMap.LEFT_MOTOR_THREE_ID, RobotMap.RIGHT_MOTOR_ONE_ID, RobotMap.RIGHT_MOTOR_TWO_ID, RobotMap.RIGHT_MOTOR_THREE_ID);
-  //public static Hatch hatch = new Hatch();
+  public static Hatch hatch = new Hatch();
 
   // Initialize OI
   public static OI oi = new OI();
@@ -44,13 +47,28 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void teleopInit() {
+  }
+
+  @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println("Hatch: " + hatchDetector.get());
-    System.out.println("Cargo: " + cargoDetector.get());
+    System.out.println("Pressure: " + pressureSensor.getPressure());
+  }
+
+  @Override
+  public void testInit() {
   }
 
   @Override
   public void testPeriodic() {
+  }
+
+  @Override
+  public void disabledInit() {
+  }
+
+  @Override
+  public void disabledPeriodic() {
   }
 }

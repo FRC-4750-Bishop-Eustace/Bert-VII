@@ -1,6 +1,7 @@
 package frc.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -20,25 +21,30 @@ public class DriveTrain extends Subsystem {
     // Create drive
     DifferentialDrive robotDrive;
 
+    WPI_TalonSRX encoderMotor;
+
     // The total degrees off we can call "on target"
     double tolerance = 0.5;
 
     public DriveTrain(int leftMotorOneId, int leftMotorTwoId, int leftMotorThreeId, int rightMotorOneId, int rightMotorTwoId, int rightMotorThreeId) {
         leftMotorOne = new WPI_TalonSRX(leftMotorOneId);
         leftMotorTwo = new WPI_TalonSRX(leftMotorTwoId);
-        //leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
+        leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
         rightMotorOne = new WPI_TalonSRX(rightMotorOneId);
         rightMotorTwo = new WPI_TalonSRX(rightMotorTwoId);
-        //rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
+        rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
 
         leftMotorTwo.follow(leftMotorOne);
-        //leftMotorThree.follow(leftMotorOne);
+        leftMotorThree.follow(leftMotorOne);
         rightMotorTwo.follow(rightMotorOne);
-        //rightMotorThree.follow(rightMotorOne);
+        rightMotorThree.follow(rightMotorOne);
 
         robotDrive = new DifferentialDrive(leftMotorOne, rightMotorOne);
         // Stop "output not updated often enough" error from printing
         robotDrive.setSafetyEnabled(false);
+
+        encoderMotor = new WPI_TalonSRX(7);
+        encoderMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     }
 
     /**
@@ -67,8 +73,8 @@ public class DriveTrain extends Subsystem {
      * @param speed + is forward, - is backward
      */
     public void driveStraightForward(double speed) {
-        leftMotorOne.set(ControlMode.PercentOutput, -speed);
-        rightMotorOne.set(ControlMode.PercentOutput, speed);
+        leftMotorOne.set(ControlMode.PercentOutput, speed);
+        rightMotorOne.set(ControlMode.PercentOutput, -speed);
     }
 
     /**

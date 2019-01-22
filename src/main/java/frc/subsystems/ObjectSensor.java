@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  * This class is the interface to the digital sensor hardware
  */
-public class DigitalSensor extends Subsystem {
+public class ObjectSensor extends Subsystem {
 
 	// Sensor
 	public DigitalInput sensor;
 
-	public DigitalSensor(int digitalPort) {
+	public ObjectSensor(int digitalPort) {
 		// Create an digital sensor with digitalPort
 		sensor = new DigitalInput(digitalPort);
 	}

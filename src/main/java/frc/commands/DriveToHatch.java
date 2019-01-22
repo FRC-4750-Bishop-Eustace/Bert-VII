@@ -19,7 +19,7 @@ public class DriveToHatch extends PIDCommand {
 
     public DriveToHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.012, 0.0002, 0.0);
+        super(0.005, 0.00005, 0.0);
         // Require the drive train
         requires(Robot.driveTrain);
         // Set the commanded heading
@@ -38,6 +38,7 @@ public class DriveToHatch extends PIDCommand {
 
     @Override
     protected void end() {
+        System.out.println("Done!");
         // When we end, brake the drive train
         Robot.driveTrain.brake();
     }
