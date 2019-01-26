@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.commands.TankDrive;
+import frc.robot.OI;
+import frc.robot.Robot;
 
 /**
  * This class manages the drive train
@@ -21,30 +23,26 @@ public class DriveTrain extends Subsystem {
     // Create drive
     DifferentialDrive robotDrive;
 
-    WPI_TalonSRX encoderMotor;
-
     // The total degrees off we can call "on target"
     double tolerance = 0.5;
+    double kP = 0.06;
 
     public DriveTrain(int leftMotorOneId, int leftMotorTwoId, int leftMotorThreeId, int rightMotorOneId, int rightMotorTwoId, int rightMotorThreeId) {
         leftMotorOne = new WPI_TalonSRX(leftMotorOneId);
         leftMotorTwo = new WPI_TalonSRX(leftMotorTwoId);
-        leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
+        //leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
         rightMotorOne = new WPI_TalonSRX(rightMotorOneId);
         rightMotorTwo = new WPI_TalonSRX(rightMotorTwoId);
-        rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
+        //rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
 
         leftMotorTwo.follow(leftMotorOne);
-        leftMotorThree.follow(leftMotorOne);
+        //leftMotorThree.follow(leftMotorOne);
         rightMotorTwo.follow(rightMotorOne);
-        rightMotorThree.follow(rightMotorOne);
+        //rightMotorThree.follow(rightMotorOne);
 
         robotDrive = new DifferentialDrive(leftMotorOne, rightMotorOne);
         // Stop "output not updated often enough" error from printing
         robotDrive.setSafetyEnabled(false);
-
-        encoderMotor = new WPI_TalonSRX(7);
-        encoderMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     }
 
     /**
@@ -54,7 +52,7 @@ public class DriveTrain extends Subsystem {
      * @param rotate + is right, - is left
      */
     public void joystickDrive(double speed, double rotate) {
-        robotDrive.arcadeDrive(speed, rotate);
+        robotDrive.arcadeDrive(cube(speed), cube(rotate));
     }
 
     /**
@@ -63,8 +61,7 @@ public class DriveTrain extends Subsystem {
      * @param speed + is right, - is left
      */
     public void turn(double speed) {
-        leftMotorOne.set(ControlMode.PercentOutput, -speed);
-        rightMotorOne.set(ControlMode.PercentOutput, -speed);
+        robotDrive.arcadeDrive(0, -speed);
     }
 
     /**
@@ -73,8 +70,13 @@ public class DriveTrain extends Subsystem {
      * @param speed + is forward, - is backward
      */
     public void driveStraightForward(double speed) {
-        leftMotorOne.set(ControlMode.PercentOutput, speed);
-        rightMotorOne.set(ControlMode.PercentOutput, -speed);
+        double turnSpeed = 0;
+        if(Robot.imu.getAngle() > Robot.imu.getCommandedHeading() + tolerance) {
+            turnSpeed += (Robot.imu.getAngle() - (Robot.imu.getCommandedHeading() + tolerance)) * kP;
+        }else if(Robot.imu.getAngle() < Robot.imu.getCommandedHeading() - tolerance) {
+            turnSpeed += (Robot.imu.getAngle() - (Robot.imu.getCommandedHeading() + tolerance)) * kP;
+        }
+        robotDrive.arcadeDrive(speed, -turnSpeed);
     }
 
     /**
@@ -85,9 +87,17 @@ public class DriveTrain extends Subsystem {
         rightMotorOne.stopMotor();
     }
 
+    public int getRightDistance() {
+        return rightMotorThree.getSelectedSensorPosition();
+    }
+
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new TankDrive());
     }
+    ;
+    protected double cube(double value) {
+        return 0.2 * Math.pow(value, 3) + (1 - 0.2) * value;
+    }
 
-}
+} 

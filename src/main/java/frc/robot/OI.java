@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.commands.AlignWithHatch;
-//import frc.commands.ToggleHatch;
-import frc.commands.PlaceHatch;
+import frc.commands.DriveToHatch;
 import frc.commands.ToggleHatch;
 
 /**
@@ -26,9 +25,9 @@ public class OI {
         // When released, align with the hatch
         alignButton.whenReleased(new AlignWithHatch());
         // When released, drive to the hatch
-        //driveToButton.whenReleased(new DriveToHatch());
+        driveToButton.whenReleased(new DriveToHatch());
         // When released, toggle hatch pistons
         toggleHatchButton.whenReleased(new ToggleHatch());
-        placeHatchButton.whenReleased(new PlaceHatch());
+        //placeHatchButton.whenReleased(new PlaceHatch());
     }
 }

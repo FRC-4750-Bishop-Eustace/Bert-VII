@@ -19,7 +19,7 @@ public class DriveToHatch extends PIDCommand {
 
     public DriveToHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.005, 0.00005, 0.0);
+        super(0.005, 0.0, 0.0);
         // Require the drive train
         requires(Robot.driveTrain);
         // Set the commanded heading
@@ -59,7 +59,6 @@ public class DriveToHatch extends PIDCommand {
 
     @Override
     protected double returnPIDInput() {
-        System.out.println(Robot.ultrasonic.getInches());
         // Input inches from the ultrasonic
         return Robot.ultrasonic.getInches();
     }
@@ -67,7 +66,7 @@ public class DriveToHatch extends PIDCommand {
     @Override
     protected void usePIDOutput(double output) {
         // Output the calculated speeds to driveForward()
-        Robot.driveTrain.driveStraightForward(output);
+        Robot.driveTrain.driveStraightForward(0.4);
     }
 
 }

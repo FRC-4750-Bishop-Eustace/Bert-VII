@@ -13,13 +13,14 @@ public class RobotMap {
     public static final int RIGHT_MOTOR_TWO_ID = 4;
     public static final int RIGHT_MOTOR_THREE_ID = 5;
 
-    // Ultrasonic ports
-    public static final int ULTRASONIC_TRIGGER = 0;
-    public static final int ULTRASONIC_ECHO = 1;
+    // Drive train constants
+    public static final double ENC_CONST = (6 * Math.PI) / 4096;
 
     // Digital sensor ports
     public static final int HATCH_SENSOR = 0;
     public static final int CARGO_SENSOR = 1;
+    public static final int ULTRASONIC_TRIGGER = 2;
+    public static final int ULTRASONIC_ECHO = 3;
 
     // Analog sensor ports
     public static final int PRESSURE_SENSOR = 0;
