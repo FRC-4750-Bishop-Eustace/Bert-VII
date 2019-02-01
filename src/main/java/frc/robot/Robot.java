@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.subsystems.Arm;
 import frc.subsystems.DriveTrain;
 import frc.subsystems.Hatch;
 import frc.subsystems.IMU;
@@ -9,6 +10,7 @@ import frc.subsystems.Limelight;
 import frc.subsystems.ObjectSensor;
 import frc.subsystems.PressureSensor;
 import frc.subsystems.Ultrasonics;
+import frc.subsystems.Wrist;
 
 public class Robot extends TimedRobot {
 
@@ -18,11 +20,14 @@ public class Robot extends TimedRobot {
   public static IMU imu = new IMU();
   public static PressureSensor pressureSensor = new PressureSensor();
   public static ObjectSensor hatchDetector = new ObjectSensor(RobotMap.HATCH_SENSOR);
-  // public static ObjectSensor cargoDetector = new ObjectSensor(RobotMap.CARGO_SENSOR);
 
   // Initialize mechanisms
-  public static DriveTrain driveTrain = new DriveTrain(RobotMap.LEFT_MOTOR_ONE_ID, RobotMap.LEFT_MOTOR_TWO_ID, RobotMap.LEFT_MOTOR_THREE_ID, RobotMap.RIGHT_MOTOR_ONE_ID, RobotMap.RIGHT_MOTOR_TWO_ID, RobotMap.RIGHT_MOTOR_THREE_ID);
+  public static DriveTrain driveTrain = new DriveTrain(RobotMap.LEFT_MOTOR_ONE_ID, RobotMap.LEFT_MOTOR_TWO_ID,
+      RobotMap.LEFT_MOTOR_THREE_ID, RobotMap.RIGHT_MOTOR_ONE_ID, RobotMap.RIGHT_MOTOR_TWO_ID,
+      RobotMap.RIGHT_MOTOR_THREE_ID);
   public static Hatch hatch = new Hatch();
+  public static Arm arm = new Arm();
+  public static Wrist wrist = new Wrist();
 
   // Initialize OI
   public static OI oi = new OI();
@@ -52,9 +57,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    System.out.println(hatchDetector.get());
-    //System.out.println(driveTrain.getRightDistance());
-    //System.out.println(ultrasonic.getInches());
   }
 
   @Override

@@ -19,7 +19,7 @@ public class DriveToHatch extends PIDCommand {
 
     public DriveToHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.005, 0.0, 0.0);
+        super(0.005, 0.0, 0.0, 0.0);
         // Require the drive train
         requires(Robot.driveTrain);
         // Set the commanded heading
@@ -45,12 +45,11 @@ public class DriveToHatch extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        // If we are on target
-        if(getPIDController().onTarget()) {
+        if (getPIDController().onTarget()) { // If we are on target
             // Add a target count
             onTargetCount++;
-        }else {
-            // If not, target count is reset
+        } else { // Otherwise
+            // Reset the target count
             onTargetCount = 0;
         }
         // We are finished once the target count hits the max count

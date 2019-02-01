@@ -44,12 +44,12 @@ public class AlignWithHatch extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        // If we are on target or if we don't have a target anymore
-        if(getPIDController().onTarget() || !Robot.limelight.getHasTarget()) {
+        if (getPIDController().onTarget() || !Robot.limelight.getHasTarget()) { // If we are on target or if we don't
+                                                                                // have a target anymore
             // Add a target count
             onTargetCount++;
-        }else {
-            // If not, target count is reset
+        } else { // Otherwise
+            // Reset the target count
             onTargetCount = 0;
         }
         // We are finished once the target count hits the max target count
