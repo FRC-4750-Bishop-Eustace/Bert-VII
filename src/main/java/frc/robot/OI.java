@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.commands.AlignWithHatch;
 import frc.commands.DriveToHatch;
+import frc.commands.PlaceHatch;
 import frc.commands.ToggleHatch;
+import frc.commands.ToggleWrist;
 
 /**
  * Handles all of the joystick inputs
@@ -14,20 +16,22 @@ public class OI {
 
     // Joysticks
     public static Joystick driveStick = new Joystick(RobotMap.DRIVESTICK_PORT);
+    public static Joystick controlStick = new Joystick(RobotMap.CONTROLSTICK_PORT);
 
-    // Buttons
+    // Drivestick Buttons
     Button alignButton = new JoystickButton(driveStick, 2);
-    Button driveToButton = new JoystickButton(driveStick, 3);
-    Button toggleHatchButton = new JoystickButton(driveStick, 4);
-    Button placeHatchButton = new JoystickButton(driveStick, 7);
+
+    // Control stick buttons
+    Button toggleHatchButton = new JoystickButton(driveStick, 1);
+    Button placeHatchButton = new JoystickButton(controlStick, 8);
+    Button toggleWristButton = new JoystickButton(controlStick, 3);
+    Button driveToHatchButton = new JoystickButton(controlStick, 5);
 
     public OI() {
-        // When released, align with the hatch
         alignButton.whenReleased(new AlignWithHatch());
-        // When released, drive to the hatch
-        driveToButton.whenReleased(new DriveToHatch());
-        // When released, toggle hatch pistons
         toggleHatchButton.whenReleased(new ToggleHatch());
-        //placeHatchButton.whenReleased(new PlaceHatch());
+        toggleWristButton.whenReleased(new ToggleWrist());
+        driveToHatchButton.whenReleased(new DriveToHatch());
+        placeHatchButton.whenReleased(new PlaceHatch());
     }
 }

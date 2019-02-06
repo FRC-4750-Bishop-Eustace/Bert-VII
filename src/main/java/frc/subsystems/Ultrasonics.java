@@ -1,7 +1,5 @@
 package frc.subsystems;
 
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -9,7 +7,7 @@ import frc.robot.RobotMap;
 /**
  * This class is the interface to the ultrasonic hardware
  */
-public class Ultrasonics extends Subsystem implements PIDSource {
+public class Ultrasonics extends Subsystem {
 
 	// Sensors
 	public Ultrasonic ultrasonic;
@@ -22,7 +20,7 @@ public class Ultrasonics extends Subsystem implements PIDSource {
 	}
 
 	/**
-	 * Use this to get the range in inches
+	 * Returns the range in inches
 	 * 
 	 * @return inches from object
 	 */
@@ -31,7 +29,7 @@ public class Ultrasonics extends Subsystem implements PIDSource {
 	}
 
 	/**
-	 * Use this to get the range in feet
+	 * Returns the range in feet
 	 * 
 	 * @return feet from object
 	 */
@@ -40,22 +38,7 @@ public class Ultrasonics extends Subsystem implements PIDSource {
 	}
 
 	@Override
-	public void initDefaultCommand() {
+	protected void initDefaultCommand() {
 		// No default command
-	}
-
-	@Override
-	public void setPIDSourceType(PIDSourceType pidSource) {
-
-	}
-
-	@Override
-	public PIDSourceType getPIDSourceType() {
-		return PIDSourceType.kRate;
-	}
-
-	@Override
-	public double pidGet() {
-		return 0;
 	}
 }

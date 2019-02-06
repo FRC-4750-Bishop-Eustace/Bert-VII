@@ -27,7 +27,7 @@ public class IMU extends Subsystem {
 	}
 
 	/**
-	 * Use this to get the pitch
+	 * Returns the pitch
 	 * 
 	 * @return the degrees - is forward + is back
 	 */
@@ -36,7 +36,7 @@ public class IMU extends Subsystem {
 	}
 
 	/**
-	 * Use this to get the angle
+	 * Returns the angle
 	 * 
 	 * @return the degrees - is left + is right
 	 */
@@ -45,7 +45,7 @@ public class IMU extends Subsystem {
 	}
 
 	/**
-	 * Use this to get the current heading
+	 * Returns the current heading
 	 * 
 	 * @return the degrees - is left + is right
 	 */
@@ -54,7 +54,7 @@ public class IMU extends Subsystem {
 	}
 
 	/**
-	 * This resets the IMU
+	 * Resets the IMU
 	 * 
 	 */
 	public void reset() {
@@ -62,7 +62,7 @@ public class IMU extends Subsystem {
 	}
 
 	/**
-	 * This sets the commanded heading
+	 * Sets the commanded heading
 	 * 
 	 */
 	public void setCommandedHeading(double heading) {
@@ -70,7 +70,7 @@ public class IMU extends Subsystem {
 	}
 
 	/**
-	 * This returns the commanded heading
+	 * Returns the commanded heading
 	 * 
 	 * @return commanded heading
 	 */

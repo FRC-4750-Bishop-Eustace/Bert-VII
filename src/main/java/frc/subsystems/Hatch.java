@@ -10,27 +10,32 @@ import frc.robot.RobotMap;
  */
 public class Hatch extends Subsystem {
 
-	// Create piston
-	public Solenoid hatchPistons;
+    // Create piston
+    public Solenoid hatchPistons;
 
-	public Hatch() {
+    public Hatch() {
         // Initialize piston to ports
         hatchPistons = new Solenoid(RobotMap.HATCH_PISTON_ID);
+    }
+
+    /**
+     * Returns the current hatch piston state
+     * 
+     * @return hatch pistons state
+     */
+    public boolean getState() {
+        return hatchPistons.get();
     }
 
     /**
      * Toggles the hatch piston
      */
     public void toggle() {
-        if(hatchPistons.get()) {
-            hatchPistons.set(false);
-        }else {
-            hatchPistons.set(true);
-        }
+        hatchPistons.set(hatchPistons.get() ? false : true);
     }
 
-	@Override
-	public void initDefaultCommand() {
-		
-	}
+    @Override
+    public void initDefaultCommand() {
+        // No default command
+    }
 }

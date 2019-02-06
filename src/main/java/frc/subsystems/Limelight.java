@@ -10,11 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Limelight extends Subsystem {
 
 	// Create network table
-	NetworkTable table;
-
-	// Create variables
-	boolean hasTarget;
-	double xOffset, yOffset, area, skew, ledMode, camMode, pipeline;
+	public NetworkTable table;
 
 	public Limelight() {
 		// Instantiate limelight network table
@@ -27,13 +23,7 @@ public class Limelight extends Subsystem {
 	 * @return target is in view
 	 */
 	public boolean getHasTarget() {
-		double targetD = table.getEntry("tv").getDouble(0);
-		if (targetD == 0) {
-			hasTarget = false;
-		} else if (targetD == 1) {
-			hasTarget = true;
-		}
-		return hasTarget;
+		return table.getEntry("tv").getDouble(0) == 0 ? false : true;
 	}
 
 	/**
@@ -42,8 +32,7 @@ public class Limelight extends Subsystem {
 	 * @return xOffset from target
 	 */
 	public double getXOffset() {
-		xOffset = table.getEntry("tx").getDouble(0);
-		return xOffset;
+		return table.getEntry("tx").getDouble(0);
 	}
 
 	/**
@@ -52,8 +41,7 @@ public class Limelight extends Subsystem {
 	 * @return yOffset from target
 	 */
 	public double getYOffset() {
-		yOffset = table.getEntry("ty").getDouble(0);
-		return yOffset;
+		return table.getEntry("ty").getDouble(0);
 	}
 
 	/**
@@ -62,8 +50,7 @@ public class Limelight extends Subsystem {
 	 * @return area of target
 	 */
 	public double getArea() {
-		area = table.getEntry("ta").getDouble(0);
-		return area;
+		return table.getEntry("ta").getDouble(0);
 	}
 
 	/**
@@ -72,64 +59,86 @@ public class Limelight extends Subsystem {
 	 * @return skew of target
 	 */
 	public double getSkew() {
-		skew = table.getEntry("ts").getDouble(0);
-		return skew;
+		return table.getEntry("ts").getDouble(0);
 	}
 
 	/**
-	 * Returns the current LED mode
+	 * Returns the latency of the pipeline
 	 * 
-	 * @return current LED mode 0 = on, 1 = off, 2 = blink
+	 * @return latency of pipeline
 	 */
-	public double getLEDMode() {
-		ledMode = table.getEntry("ledMode").getDouble(0);
-		return ledMode;
+	public double getLatency() {
+		return table.getEntry("tl").getDouble(0);
 	}
 
 	/**
-	 * Returns the current camera mode
+	 * Returns the length of the shortest side of the bounding box
 	 * 
-	 * @return current camera mode 0 = threshold, 1 = raw image
+	 * @return length of short side
 	 */
-	public double getCamMode() {
-		camMode = table.getEntry("camMode").getDouble(0);
-		return camMode;
+	public double getShort() {
+		return table.getEntry("tshort").getDouble(0);
 	}
 
 	/**
-	 * Returns the current pipeline
+	 * Returns the length of the longest side of the bounding box
 	 * 
-	 * @return current pipeline
+	 * @return length of long side
+	 */
+	public double getLong() {
+		return table.getEntry("tlong").getDouble(0);
+	}
+
+	/**
+	 * Returns the length of the horizontal side of the bounding box
+	 * 
+	 * @return length of horizontal side
+	 */
+	public double getHorizontal() {
+		return table.getEntry("thor").getDouble(0);
+	}
+
+	/**
+	 * Returns the length of the vertical side of the bounding box
+	 * 
+	 * @return length of vertical side
+	 */
+	public double getVertical() {
+		return table.getEntry("tvert").getDouble(0);
+	}
+
+	/**
+	 * Returns the current pipeline index
+	 * 
+	 * @return length of vertical side
 	 */
 	public double getPipeline() {
-		pipeline = table.getEntry("pipeline").getDouble(0);
-		return pipeline;
+		return table.getEntry("getpipe").getDouble(0);
 	}
 
 	/**
-	 * Cycles the LED mode, skipping blink mode
+	 * Sets the LED mode
 	 * 
+	 * @param on state of the LED
 	 */
-	public void switchLED() {
-		if (getLEDMode() == 0) {
-			table.getEntry("ledMode").setDouble(1);
-		} else if (getLEDMode() == 1) {
-			table.getEntry("ledMode").setDouble(0);
-		} else if (getLEDMode() == 2) {
-			table.getEntry("ledMode").setDouble(1);
-		}
+	public void setLEDMode(boolean on) {
+		table.getEntry("ledMode").setDouble(on ? 3 : 1);
 	}
 
 	/**
-	 * Cycles the camera mode
+	 * Sets the LED mode to pipeline
 	 * 
 	 */
-	public void switchCamera() {
-		if (getCamMode() == 0) {
-			table.getEntry("camMode").setDouble(1);
-		} else if (getCamMode() == 1) {
-			table.getEntry("camMode").setDouble(0);
-		}
+	public void resetLEDMode() {
+		table.getEntry("ledMode").setDouble(0);
+	}
+
+	/**
+	 * Toggles the camera mode
+	 * 
+	 */
+	public void toggleCameraMode() {
+		table.getEntry("camMode").setDouble(table.getEntry("camMode").getDouble(0) == 0 ? 1 : 0);
 	}
 
 	/**
@@ -137,23 +146,42 @@ public class Limelight extends Subsystem {
 	 * 
 	 */
 	public void setCameraMode(String mode) {
-		if (mode.equalsIgnoreCase("Vision")) {
-			table.getEntry("camMode").setDouble(0);
-			table.getEntry("ledMode").setDouble(1);
-			setPipeline(1);
-		} else if (mode.equalsIgnoreCase("Camera")) {
-			table.getEntry("camMode").setDouble(1);
-			table.getEntry("ledMode").setDouble(1);
-			setPipeline(0);
-		}
+		table.getEntry("camMode").setDouble(mode.equalsIgnoreCase("camera") ? 1 : 0);
 	}
 
 	/**
-	 * Changes the current pipeline
+	 * Sets the current pipeline
 	 * 
+	 * @param pipeline pipeline index
 	 */
 	public void setPipeline(double pipeline) {
 		table.getEntry("pipeline").setDouble(pipeline);
+	}
+
+	/**
+	 * Toggles the stream mode
+	 * 
+	 */
+	public void toggleStreamMode() {
+		table.getEntry("stream")
+				.setDouble(table.getEntry("stream").getDouble(0) == 2 ? 0 : table.getEntry("stream").getDouble(0) + 1);
+	}
+
+	/**
+	 * Sets the stream mode
+	 * 
+	 * @param mode stream mode
+	 */
+	public void setStreamMode(String mode) {
+		table.getEntry("stream").setDouble(mode.equalsIgnoreCase("double") ? 0 : mode.equalsIgnoreCase("main") ? 1 : 2);
+	}
+
+	/**
+	 * Toggles snapshot creation
+	 * 
+	 */
+	public void toggleSnapshots() {
+		table.getEntry("snapshot").setDouble(table.getEntry("snapshot").getDouble(0) == 0 ? 1 : 0);
 	}
 
 	@Override

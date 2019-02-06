@@ -1,5 +1,6 @@
 package frc.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -22,20 +23,29 @@ public class DriveTrain extends Subsystem {
 
     // The total degrees off we can call "on target"
     double tolerance = 0.5;
+    // PID constants
     double kP = 0.06;
 
-    public DriveTrain(int leftMotorOneId, int leftMotorTwoId, int leftMotorThreeId, int rightMotorOneId, int rightMotorTwoId, int rightMotorThreeId) {
+    public DriveTrain(int leftMotorOneId, int leftMotorTwoId, int leftMotorThreeId, int rightMotorOneId,
+            int rightMotorTwoId, int rightMotorThreeId) {
+        // Initialize motors
         leftMotorOne = new WPI_TalonSRX(leftMotorOneId);
         leftMotorTwo = new WPI_TalonSRX(leftMotorTwoId);
-        //leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
+        leftMotorThree = new WPI_TalonSRX(leftMotorThreeId);
         rightMotorOne = new WPI_TalonSRX(rightMotorOneId);
         rightMotorTwo = new WPI_TalonSRX(rightMotorTwoId);
-        //rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
+        rightMotorThree = new WPI_TalonSRX(rightMotorThreeId);
 
+        // Set motors to follow masters
         leftMotorTwo.follow(leftMotorOne);
-        //leftMotorThree.follow(leftMotorOne);
+        leftMotorThree.follow(leftMotorOne);
         rightMotorTwo.follow(rightMotorOne);
-        //rightMotorThree.follow(rightMotorOne);
+        rightMotorThree.follow(rightMotorOne);
+
+        rightMotorOne.config_kP(0, .125);
+        rightMotorOne.config_kI(0, 0.0);
+        rightMotorOne.config_kD(0, 0.0);
+        rightMotorOne.config_kF(0, 0.5);
 
         robotDrive = new DifferentialDrive(leftMotorOne, rightMotorOne);
         // Stop "output not updated often enough" error from printing
@@ -45,11 +55,11 @@ public class DriveTrain extends Subsystem {
     /**
      * Passes speed and rotate values to the drive train
      * 
-     * @param speed + is forward, - is backward
+     * @param speed  + is forward, - is backward
      * @param rotate + is right, - is left
      */
     public void joystickDrive(double speed, double rotate) {
-        robotDrive.arcadeDrive(cube(speed), cube(rotate));
+        robotDrive.arcadeDrive(desensitize(speed), desensitize(rotate));
     }
 
     /**
@@ -68,12 +78,20 @@ public class DriveTrain extends Subsystem {
      */
     public void driveStraightForward(double speed) {
         double turnSpeed = 0;
-        if(Robot.imu.getAngle() > Robot.imu.getCommandedHeading() + tolerance) {
-            turnSpeed += (Robot.imu.getAngle() - (Robot.imu.getCommandedHeading() + tolerance)) * kP;
-        }else if(Robot.imu.getAngle() < Robot.imu.getCommandedHeading() - tolerance) {
-            turnSpeed += (Robot.imu.getAngle() - (Robot.imu.getCommandedHeading() + tolerance)) * kP;
+        if (Robot.imu.getAngle() > Robot.imu.getCommandedHeading() + tolerance) { // If we are to the right of the
+                                                                                  // tolerance
+            turnSpeed += (Robot.imu.getAngle() - (Robot.imu.getCommandedHeading() + tolerance)) * kP; // Re-adjust to
+                                                                                                      // the left
+        } else if (Robot.imu.getAngle() < Robot.imu.getCommandedHeading() - tolerance) { // If we are to the left of the
+                                                                                         // tolerance
+            turnSpeed += (Robot.imu.getAngle() - (Robot.imu.getCommandedHeading() + tolerance)) * kP; // Re-adjust to
+                                                                                                      // the right
         }
         robotDrive.arcadeDrive(speed, -turnSpeed);
+    }
+
+    public void driveToDistance(int counts) {
+        rightMotorOne.set(ControlMode.MotionMagic, counts);
     }
 
     /**
@@ -84,17 +102,17 @@ public class DriveTrain extends Subsystem {
         rightMotorOne.stopMotor();
     }
 
-    public int getRightDistance() {
-        return rightMotorThree.getSelectedSensorPosition();
-    }
-
     @Override
     protected void initDefaultCommand() {
         setDefaultCommand(new TankDrive());
-    }
-    ;
-    protected double cube(double value) {
-        return 0.2 * Math.pow(value, 3) + (1 - 0.2) * value;
+    };
+
+    /**
+     * Desensitizes the joystick values at low speeds
+     * 
+     */
+    protected double desensitize(double value) {
+        return 0.1 * Math.pow(value, 3) + (1 - 0.3) * value;
     }
 
-} 
+}
