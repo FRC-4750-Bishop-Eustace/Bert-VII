@@ -7,6 +7,7 @@ import frc.commands.AlignWithHatch;
 import frc.commands.DriveToHatch;
 import frc.commands.PlaceHatch;
 import frc.commands.ToggleHatch;
+import frc.commands.ToggleWrist;
 
 /**
  * Handles all of the joystick inputs
@@ -23,13 +24,13 @@ public class OI {
     // Control stick buttons
     Button toggleHatchButton = new JoystickButton(driveStick, 1);
     Button placeHatchButton = new JoystickButton(controlStick, 8);
-    Button alignWithHatchButton = new JoystickButton(controlStick, 3);
+    Button toggleWristButton = new JoystickButton(controlStick, 3);
     Button driveToHatchButton = new JoystickButton(controlStick, 5);
 
     public OI() {
         alignButton.whenReleased(new AlignWithHatch());
         toggleHatchButton.whenReleased(new ToggleHatch());
-        alignWithHatchButton.whenReleased(new AlignWithHatch());
+        toggleWristButton.whenReleased(new ToggleWrist());
         driveToHatchButton.whenReleased(new DriveToHatch());
         placeHatchButton.whenReleased(new PlaceHatch());
     }

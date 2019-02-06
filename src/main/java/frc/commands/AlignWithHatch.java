@@ -9,7 +9,7 @@ import frc.robot.Robot;
 public class AlignWithHatch extends PIDCommand {
 
     // The total degrees off we can call "on target"
-    double tolerance = 0.3;
+    double tolerance = 0.7;
     // The current target count
     double onTargetCount = 0;
     // The max target count
@@ -17,7 +17,8 @@ public class AlignWithHatch extends PIDCommand {
 
     public AlignWithHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.01, 0.001, 0.0);
+        super(0.03, 0.0065, 0.12);
+        // super(0.025, 0.003, 0.002);
         // Require the drive train
         requires(Robot.driveTrain);
     }
@@ -40,6 +41,7 @@ public class AlignWithHatch extends PIDCommand {
     protected void end() {
         // When we end, brake the drive train
         Robot.driveTrain.brake();
+        System.out.println("Done!");
     }
 
     @Override

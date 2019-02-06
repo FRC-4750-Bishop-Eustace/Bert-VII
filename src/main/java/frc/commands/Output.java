@@ -1,5 +1,8 @@
 package frc.commands;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -8,6 +11,8 @@ import frc.robot.Robot;
  * Handles outputting all sensor data
  */
 public class Output extends Command {
+
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("dashboard");
 
     public Output() {
         // Require the pressure sensorS

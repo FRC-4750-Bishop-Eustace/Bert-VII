@@ -1,5 +1,6 @@
 package frc.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -40,6 +41,11 @@ public class DriveTrain extends Subsystem {
         leftMotorThree.follow(leftMotorOne);
         rightMotorTwo.follow(rightMotorOne);
         rightMotorThree.follow(rightMotorOne);
+
+        rightMotorOne.config_kP(0, .125);
+        rightMotorOne.config_kI(0, 0.0);
+        rightMotorOne.config_kD(0, 0.0);
+        rightMotorOne.config_kF(0, 0.5);
 
         robotDrive = new DifferentialDrive(leftMotorOne, rightMotorOne);
         // Stop "output not updated often enough" error from printing
@@ -82,6 +88,10 @@ public class DriveTrain extends Subsystem {
                                                                                                       // the right
         }
         robotDrive.arcadeDrive(speed, -turnSpeed);
+    }
+
+    public void driveToDistance(int counts) {
+        rightMotorOne.set(ControlMode.MotionMagic, counts);
     }
 
     /**

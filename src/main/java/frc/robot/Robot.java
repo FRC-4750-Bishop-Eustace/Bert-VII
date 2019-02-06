@@ -1,5 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.subsystems.Arm;
@@ -29,6 +33,8 @@ public class Robot extends TimedRobot {
   public static Arm arm = new Arm();
   public static Wrist wrist = new Wrist();
 
+  NetworkTable table = NetworkTableInstance.getDefault().getTable("dashboard");
+
   // Initialize OI
   public static OI oi = new OI();
 
@@ -39,6 +45,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     Scheduler.getInstance().run();
+    table.getEntry("distance").setNumber(ultrasonic.getInches());
+    table.getEntry("angle").setNumber(imu.getHeading());
+    table.getEntry("time").setNumber(DriverStation.getInstance().getMatchTime());
+    table.getEntry("pressure").setNumber(pressureSensor.getPressure());
+    table.getEntry("hatch-panel").setBoolean(hatchDetector.get());
+    table.getEntry("battery-voltage").setNumber(RobotController.getBatteryVoltage());
   }
 
   @Override

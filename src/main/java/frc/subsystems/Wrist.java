@@ -14,7 +14,7 @@ public class Wrist extends Subsystem {
 
     public Wrist() {
         // Initialize solenoid
-        // wristPiston = new Solenoid(RobotMap.WRIST_PISTON_ID);
+        wristPiston = new Solenoid(RobotMap.WRIST_PISTON_ID);
     }
 
     /**
