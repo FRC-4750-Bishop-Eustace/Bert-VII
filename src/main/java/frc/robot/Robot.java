@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.subsystems.Arm;
 import frc.subsystems.DriveTrain;
 import frc.subsystems.Hatch;
@@ -26,9 +27,9 @@ public class Robot extends TimedRobot {
   public static ObjectSensor hatchDetector = new ObjectSensor(RobotMap.HATCH_SENSOR);
 
   // Initialize mechanisms
-  public static DriveTrain driveTrain = new DriveTrain(RobotMap.LEFT_MOTOR_ONE_ID, RobotMap.LEFT_MOTOR_TWO_ID,
-      RobotMap.LEFT_MOTOR_THREE_ID, RobotMap.RIGHT_MOTOR_ONE_ID, RobotMap.RIGHT_MOTOR_TWO_ID,
-      RobotMap.RIGHT_MOTOR_THREE_ID);
+  public static DriveTrain driveTrain = new DriveTrain(RobotMap.LEFT_MASTER_ID, RobotMap.LEFT_FOLLOWER_ONE_ID,
+      RobotMap.LEFT_FOLLOWER_TWO_ID, RobotMap.RIGHT_MASTER_ID, RobotMap.RIGHT_FOLLOWER_ONE_ID,
+      RobotMap.RIGHT_FOLLOWER_TWO_ID);
   public static Hatch hatch = new Hatch();
   public static Arm arm = new Arm();
   public static Wrist wrist = new Wrist();
@@ -40,17 +41,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    driveTrain.resetEncoders();
+    limelight.drivingMode();
   }
 
   @Override
   public void robotPeriodic() {
     Scheduler.getInstance().run();
-    table.getEntry("distance").setNumber(ultrasonic.getInches());
-    table.getEntry("angle").setNumber(imu.getHeading());
-    table.getEntry("time").setNumber(DriverStation.getInstance().getMatchTime());
-    table.getEntry("pressure").setNumber(pressureSensor.getPressure());
-    table.getEntry("hatch-panel").setBoolean(hatchDetector.get());
-    table.getEntry("battery-voltage").setNumber(RobotController.getBatteryVoltage());
+    outputData();
+    // System.out.println(driveTrain.leftMaster.getSelectedSensorVelocity());
+    // System.out.println("Right Encoder: " + driveTrain.getRightEncoder());
+    // System.out.println("Left Encoder: " + driveTrain.getLeftEncoder());
   }
 
   @Override
@@ -85,5 +86,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+  }
+
+  private void outputData() {
+    table.getEntry("distance").setNumber(ultrasonic.getInches());
+    table.getEntry("angle").setNumber(imu.getHeading());
+    table.getEntry("time").setNumber(DriverStation.getInstance().getMatchTime());
+    table.getEntry("pressure").setNumber(pressureSensor.getPressure());
+    table.getEntry("hatch-panel").setBoolean(hatchDetector.get());
+    table.getEntry("battery-voltage").setNumber(RobotController.getBatteryVoltage());
+    table.getEntry("hasTarget").setBoolean(limelight.getHasTarget());
   }
 }

@@ -9,7 +9,6 @@ public class PlaceHatch extends CommandGroup {
 
     public PlaceHatch() {
         addSequential(new AlignWithHatch()); // First align
-        addSequential(new DriveToHatch()); // Then drive
-        addSequential(new ToggleHatch()); // Then release the hatch
+        addSequential(new DriveToHatch());
     }
 }
