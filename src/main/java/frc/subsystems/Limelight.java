@@ -117,6 +117,26 @@ public class Limelight extends Subsystem {
 	}
 
 	/**
+	 * Returns the real-world translation of the camera from the target { x, y, z,
+	 * pitch, yaw, roll }
+	 * 
+	 * @return { x, y, z, pitch, yaw, roll }
+	 */
+	public Number[] getTranslation() {
+		Number[] def = { 0, 0, 0, 0, 0, 0 };
+		return table.getEntry("camtran").getNumberArray(def);
+	}
+
+	/**
+	 * Returns the LED mode
+	 * 
+	 * @return state of the LED
+	 */
+	public double getLEDMode() {
+		return table.getEntry("ledMode").getDouble(0);
+	}
+
+	/**
 	 * Sets the LED mode
 	 * 
 	 * @param on state of the LED
@@ -182,6 +202,22 @@ public class Limelight extends Subsystem {
 	 */
 	public void toggleSnapshots() {
 		table.getEntry("snapshot").setDouble(table.getEntry("snapshot").getDouble(0) == 0 ? 1 : 0);
+	}
+
+	/**
+	 * Configures the Limelight for driving
+	 */
+	public void drivingMode() {
+		setPipeline(0);
+		setCameraMode("camera");
+	}
+
+	/**
+	 * Configures the Limelight for alignment
+	 */
+	public void alignMode() {
+		setPipeline(0);
+		setCameraMode("vision");
 	}
 
 	@Override

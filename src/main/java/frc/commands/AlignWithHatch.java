@@ -17,7 +17,7 @@ public class AlignWithHatch extends PIDCommand {
 
     public AlignWithHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.03, 0.0065, 0.12);
+        super(0.025, 0.0065, 0.12);
         // super(0.025, 0.003, 0.002);
         // Require the drive train
         requires(Robot.driveTrain);
@@ -25,6 +25,7 @@ public class AlignWithHatch extends PIDCommand {
 
     @Override
     protected void initialize() {
+        Robot.limelight.alignMode();
         // The min and max values the Limelight can input
         getPIDController().setInputRange(-45, 45);
         // The min and max values we want the PIDCommand to output
@@ -41,11 +42,14 @@ public class AlignWithHatch extends PIDCommand {
     protected void end() {
         // When we end, brake the drive train
         Robot.driveTrain.brake();
-        System.out.println("Done!");
+        Robot.limelight.drivingMode();
+        System.out.println("AlignWithHatch() Done!");
     }
 
     @Override
     protected boolean isFinished() {
+        System.out.println(getPIDController().onTarget());
+        System.out.println(!Robot.limelight.getHasTarget());
         if (getPIDController().onTarget() || !Robot.limelight.getHasTarget()) { // If we are on target or if we don't
                                                                                 // have a target anymore
             // Add a target count

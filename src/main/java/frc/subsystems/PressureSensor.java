@@ -2,7 +2,6 @@ package frc.subsystems;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.commands.Output;
 import frc.robot.RobotMap;
 
 public class PressureSensor extends Subsystem {
@@ -27,6 +26,6 @@ public class PressureSensor extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new Output());
+        // No default command
     }
 }
