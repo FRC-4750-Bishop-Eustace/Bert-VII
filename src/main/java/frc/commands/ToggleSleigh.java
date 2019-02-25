@@ -3,10 +3,14 @@ package frc.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.Robot;
 
-public class ResetEncoders extends InstantCommand {
+public class ToggleSleigh extends InstantCommand {
+
+    public ToggleSleigh() {
+        requires(Robot.sleigh);
+    }
 
     @Override
     protected void initialize() {
-        Robot.driveTrain.resetEncoders();
+        Robot.sleigh.toggle();
     }
 }

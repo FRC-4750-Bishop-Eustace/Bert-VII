@@ -15,10 +15,10 @@ public class RobotMap {
     public static final int RIGHT_FOLLOWER_TWO_ID = 4;
 
     // Digital sensor ports (DIO)
-    public static final int HATCH_SENSOR = 0;
-    public static final int CARGO_SENSOR = 1;
-    public static final int ULTRASONIC_TRIGGER = 2;
-    public static final int ULTRASONIC_ECHO = 3;
+    public static final int HATCH_SENSOR = 2;
+    public static final int CARGO_SENSOR = 3;
+    public static final int ULTRASONIC_TRIGGER = 0;
+    public static final int ULTRASONIC_ECHO = 1;
 
     // Analog sensor ports (Analog)
     public static final int PRESSURE_SENSOR = 0;
@@ -30,8 +30,15 @@ public class RobotMap {
     public static final int ARM_MASTER_ID = 6;
     public static final int ARM_FOLLOWER_ID = 7;
 
-    // Arm piston IDs (PCM)
-    public static final int WRIST_PISTON_ID = 1;
+    // Wrist piston IDs (PCM)
+    public static final int WRIST_PISTON_FOR_ID = 1;
+    public static final int WRIST_PISTON_REV_ID = 2;
+
+    // Cargo arm motor IDs (CAN)
+    public static final int CARGO_ARM_ID = 8;
+
+    // Sleigh piston IDs (PCM)
+    public static final int SLEIGH_ID = 2;
 
     // Drive Train Constants
     public static final double WHEEL_RADIUS = 3;
@@ -46,8 +53,14 @@ public class RobotMap {
     // Arm Constants
     public static final double ARM_SPEED = 1;
     public static final boolean ARM_INVERT = false;
-    public static final boolean ARM_PHASE = false;
+    public static final boolean ARM_PHASE = true;
     public static final int ARM_TOLERANCE = 0;
+    public static final int PLACE_COUNTS = 21000;
+    public static final int FLOOR_COUNTS = 33200;
+    public static final int RESET_COUNTS = 0;
+
+    // Cargo Arm Constants
+    public static final double CARGO_SPEED = 0.7;
 
     // Talon SRX Constants
     public static final int TIMEOUT = 30;

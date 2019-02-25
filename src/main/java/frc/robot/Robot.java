@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.subsystems.Arm;
+import frc.subsystems.CargoArm;
 import frc.subsystems.DriveTrain;
 import frc.subsystems.Hatch;
 import frc.subsystems.IMU;
 import frc.subsystems.Limelight;
 import frc.subsystems.ObjectSensor;
 import frc.subsystems.PressureSensor;
+import frc.subsystems.Sleigh;
 import frc.subsystems.Ultrasonics;
 import frc.subsystems.Wrist;
 
@@ -32,6 +34,8 @@ public class Robot extends TimedRobot {
   public static Hatch hatch = new Hatch();
   public static Arm arm = new Arm();
   public static Wrist wrist = new Wrist();
+  public static CargoArm cargoArm = new CargoArm();
+  public static Sleigh sleigh = new Sleigh();
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("dashboard");
 
@@ -42,15 +46,19 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     driveTrain.resetEncoders();
     limelight.drivingMode();
+    limelight.toggleSnapshots();
+    arm.resetArm();
   }
 
   @Override
   public void robotPeriodic() {
     Scheduler.getInstance().run();
     outputData();
-    // System.out.println(driveTrain.leftMaster.getSelectedSensorVelocity());
-    // System.out.println("Right Encoder: " + driveTrain.getRightEncoder());
-    // System.out.println("Left Encoder: " + driveTrain.getLeftEncoder());
+    limelight.drivingMode();
+    if (arm.getLimit()) {
+      arm.resetArm();
+    }
+    System.out.println();
   }
 
   @Override
@@ -95,5 +103,8 @@ public class Robot extends TimedRobot {
     table.getEntry("hatch-panel").setBoolean(hatchDetector.get());
     table.getEntry("battery-voltage").setNumber(RobotController.getBatteryVoltage());
     table.getEntry("hasTarget").setBoolean(limelight.getHasTarget());
+    table.getEntry("wrist").setBoolean(wrist.get());
+    table.getEntry("arm").setNumber(arm.getArmPosition());
+    table.getEntry("sleigh").setNumber(cargoArm.getArmPosition());
   }
 }

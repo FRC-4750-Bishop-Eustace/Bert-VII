@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class PlaceHatch extends CommandGroup {
 
     public PlaceHatch() {
-        addSequential(new AlignWithHatch()); // First align
+        addSequential(new AlignWithHatch());
         addSequential(new DriveToHatch());
     }
 }

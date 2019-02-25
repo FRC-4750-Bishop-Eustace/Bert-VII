@@ -16,7 +16,7 @@ public class DriveToHatch extends Command {
 
     @Override
     protected void execute() {
-        Robot.driveTrain.driveStraight(OI.driveStick.getY());
+        Robot.driveTrain.driveStraightLimelight(OI.driveStick.getY());
     }
 
     @Override
@@ -28,7 +28,7 @@ public class DriveToHatch extends Command {
 
     @Override
     protected boolean isFinished() {
-        return OI.driveStick.getRawButton(1);
+        return OI.driveStick.getRawButton(3) || !Robot.limelight.getHasTarget();
     }
 
 }
