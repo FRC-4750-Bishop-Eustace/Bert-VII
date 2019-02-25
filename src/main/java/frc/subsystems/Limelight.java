@@ -208,16 +208,7 @@ public class Limelight extends Subsystem {
 	 * Configures the Limelight for driving
 	 */
 	public void drivingMode() {
-		setPipeline(0);
-		setCameraMode("camera");
-	}
-
-	/**
-	 * Configures the Limelight for alignment
-	 */
-	public void alignMode() {
-		setPipeline(0);
-		setCameraMode("vision");
+		setStreamMode("secondary");
 	}
 
 	@Override

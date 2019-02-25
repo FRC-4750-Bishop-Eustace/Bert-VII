@@ -1,5 +1,6 @@
 package frc.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.Robot;
 
@@ -15,9 +16,11 @@ public class AlignWithHatch extends PIDCommand {
     // The max target count
     double maxTargetCount = 7.5;
 
+    Timer timer = new Timer();
+
     public AlignWithHatch() {
         // Pass in P, I, D to PIDCommand
-        super(0.025, 0.0065, 0.12);
+        super(0.06, 0.001, 0.1);
         // super(0.025, 0.003, 0.002);
         // Require the drive train
         requires(Robot.driveTrain);
@@ -25,7 +28,7 @@ public class AlignWithHatch extends PIDCommand {
 
     @Override
     protected void initialize() {
-        Robot.limelight.alignMode();
+        timer.reset();
         // The min and max values the Limelight can input
         getPIDController().setInputRange(-45, 45);
         // The min and max values we want the PIDCommand to output
@@ -36,6 +39,7 @@ public class AlignWithHatch extends PIDCommand {
         getPIDController().setContinuous();
         // We want to get to 0 on the Limelight
         getPIDController().setSetpoint(0);
+        timer.start();
     }
 
     @Override
@@ -48,10 +52,10 @@ public class AlignWithHatch extends PIDCommand {
 
     @Override
     protected boolean isFinished() {
-        System.out.println(getPIDController().onTarget());
-        System.out.println(!Robot.limelight.getHasTarget());
-        if (getPIDController().onTarget() || !Robot.limelight.getHasTarget()) { // If we are on target or if we don't
-                                                                                // have a target anymore
+        if (getPIDController().onTarget() || !Robot.limelight.getHasTarget() || timer.get() > 3) { // If we are on
+                                                                                                   // target or if we
+                                                                                                   // don't
+            // have a target anymore
             // Add a target count
             onTargetCount++;
         } else { // Otherwise

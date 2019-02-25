@@ -1,5 +1,6 @@
 package frc.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
@@ -11,6 +12,7 @@ public class PositionArm extends Command {
     double maxTargetCount = 7.5;
     // The target (in inches) we want to get to
     int target;
+    Timer timer = new Timer();
 
     public PositionArm(int counts) {
         target = counts;
@@ -20,6 +22,8 @@ public class PositionArm extends Command {
     @Override
     protected void initialize() {
         Robot.arm.setArmPosition(target); // Start position control
+        timer.reset();
+        timer.start();
     }
 
     @Override
@@ -29,7 +33,7 @@ public class PositionArm extends Command {
 
     @Override
     protected boolean isFinished() {
-        if (Robot.arm.isOnTarget(target)) { // If we are on target
+        if (Robot.arm.isOnTarget(target) || timer.get() > 2) { // If we are on target
             // Add a target count
             onTargetCount++;
         } else { // Otherwise
