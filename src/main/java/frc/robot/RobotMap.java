@@ -55,12 +55,18 @@ public class RobotMap {
     public static final boolean ARM_INVERT = false;
     public static final boolean ARM_PHASE = true;
     public static final int ARM_TOLERANCE = 0;
-    public static final int PLACE_COUNTS = 21000;
+    public static final int PLACE_COUNTS = 15000;
     public static final int FLOOR_COUNTS = 33200;
     public static final int RESET_COUNTS = 0;
 
     // Cargo Arm Constants
-    public static final double CARGO_SPEED = 0.7;
+    public static final double CARGO_ARM_SPEED = 0.45;
+    public static final boolean CARGO_ARM_INVERT = false;
+    public static final boolean CARGO_ARM_PHASE = true;
+    public static final int CARGO_ARM_TOLERANCE = 0;
+    public static final int CARGO_PLACE_COUNTS = 350;
+    public static final int CARGO_FLOOR_COUNTS = 1280;
+    public static final int CARGO_RESET_COUNTS = 0;
 
     // Talon SRX Constants
     public static final int TIMEOUT = 30;

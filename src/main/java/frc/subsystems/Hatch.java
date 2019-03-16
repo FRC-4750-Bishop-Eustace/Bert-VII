@@ -1,7 +1,6 @@
 package frc.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -32,14 +31,7 @@ public class Hatch extends Subsystem {
      * Toggles the hatch piston
      */
     public void toggle() {
-        Timer timer = new Timer();
-        timer.reset();
         hatchPistons.set(hatchPistons.get() ? false : true);
-        timer.start();
-        while (timer.get() < 0.5) {
-        }
-        hatchPistons.set(hatchPistons.get() ? false : true);
-        timer.stop();
     }
 
     @Override

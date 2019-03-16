@@ -2,6 +2,7 @@ package frc.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
@@ -29,7 +30,7 @@ public class Arm extends Subsystem {
         armMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, RobotMap.PID_INDEX,
                 RobotMap.TIMEOUT);
         armMaster.setInverted(RobotMap.ARM_INVERT);
-        armFollower.setInverted(RobotMap.ARM_INVERT);
+        // armFollower.setInverted(RobotMap.ARM_INVERT);
         armMaster.setSensorPhase(RobotMap.ARM_PHASE);
         armMaster.configAllowableClosedloopError(RobotMap.PID_INDEX, RobotMap.ARM_TOLERANCE, RobotMap.TIMEOUT);
         armMaster.config_kF(RobotMap.PID_INDEX, 0.0, RobotMap.TIMEOUT);
@@ -41,8 +42,8 @@ public class Arm extends Subsystem {
         armFollower.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
         // Sets the second motor to follow the master
-        // armFollower.follow(armMaster);
-        // armFollower.setInverted(InvertType.FollowMaster);
+        armFollower.follow(armMaster);
+        armFollower.setInverted(InvertType.FollowMaster);
 
         int absolutePosition = armMaster.getSensorCollection().getPulseWidthPosition();
 
@@ -66,6 +67,7 @@ public class Arm extends Subsystem {
      */
     public void setArmPosition(int counts) {
         armMaster.set(ControlMode.Position, counts);
+        armFollower.set(ControlMode.Follower, RobotMap.ARM_MASTER_ID);
     }
 
     /**

@@ -48,6 +48,7 @@ public class Robot extends TimedRobot {
     limelight.drivingMode();
     limelight.toggleSnapshots();
     arm.resetArm();
+    cargoArm.resetArm();
   }
 
   @Override
@@ -58,7 +59,11 @@ public class Robot extends TimedRobot {
     if (arm.getLimit()) {
       arm.resetArm();
     }
-    System.out.println();
+    if (cargoArm.getLimit()) {
+      cargoArm.resetArm();
+    }
+    System.out.println("Cargo arm: " + cargoArm.getArmPosition());
+    System.out.println("Hatch arm: " + arm.getArmPosition());
   }
 
   @Override

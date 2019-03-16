@@ -67,7 +67,8 @@ public class DriveTrain extends Subsystem {
      * @param rotate + is right, - is left
      */
     public void joystickDrive(double speed, double rotate) {
-        robotDrive.arcadeDrive(desensitize(speed, 0.577), desensitize(rotate * 0.85, 0.24));
+        robotDrive.arcadeDrive(desensitize(speed * 0.85, 0.577), rotate * 0.85);
+        // .28, .15
     }
 
     /**

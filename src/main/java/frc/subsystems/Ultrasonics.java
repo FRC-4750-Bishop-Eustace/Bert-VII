@@ -37,6 +37,14 @@ public class Ultrasonics extends Subsystem {
 		return ultrasonic.getRangeInches() / 12;
 	}
 
+	public boolean isInRangePlace() {
+		return getInches() >= 15 && getInches() <= 19 ? true : false;
+	}
+
+	public boolean isInRangePickup() {
+		return getInches() <= 15 ? true : false;
+	}
+
 	@Override
 	protected void initDefaultCommand() {
 		// No default command
