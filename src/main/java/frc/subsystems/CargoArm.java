@@ -29,7 +29,7 @@ public class CargoArm extends Subsystem {
                 RobotMap.TIMEOUT);
         armMaster.setInverted(RobotMap.CARGO_ARM_INVERT);
         armMaster.setSensorPhase(RobotMap.CARGO_ARM_PHASE);
-        armMaster.configAllowableClosedloopError(RobotMap.PID_INDEX, RobotMap.ARM_TOLERANCE, RobotMap.TIMEOUT);
+        armMaster.configAllowableClosedloopError(RobotMap.PID_INDEX, RobotMap.CARGO_ARM_TOLERANCE, RobotMap.TIMEOUT);
         armMaster.config_kF(RobotMap.PID_INDEX, 0.0, RobotMap.TIMEOUT);
         armMaster.config_kP(RobotMap.PID_INDEX, 0.8, RobotMap.TIMEOUT);
         armMaster.config_kI(RobotMap.PID_INDEX, 0.0, RobotMap.TIMEOUT);

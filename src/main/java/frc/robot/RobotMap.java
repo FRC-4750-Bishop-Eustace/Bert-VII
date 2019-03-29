@@ -26,19 +26,18 @@ public class RobotMap {
     // Hatch piston IDs (PCM)
     public static final int HATCH_PISTON_ID = 0;
 
-    // Arm motor IDs (CAN)
-    public static final int ARM_MASTER_ID = 6;
-    public static final int ARM_FOLLOWER_ID = 7;
+    // Pincer piston ID (PCM)
+    public static final int PINCER_ID = 2;
 
-    // Wrist piston IDs (PCM)
-    public static final int WRIST_PISTON_FOR_ID = 1;
-    public static final int WRIST_PISTON_REV_ID = 2;
+    // Pusher piston ID (PCM)
+    public static final int PUSHER_FOR_ID = 0;
+    public static final int PUSHER_REV_ID = 1;
 
     // Cargo arm motor IDs (CAN)
     public static final int CARGO_ARM_ID = 8;
 
     // Sleigh piston IDs (PCM)
-    public static final int SLEIGH_ID = 2;
+    public static final int SLEIGH_ID = 3;
 
     // Drive Train Constants
     public static final double WHEEL_RADIUS = 3;
@@ -49,15 +48,7 @@ public class RobotMap {
     public static final boolean RIGHT_INVERT = false;
     public static final boolean RIGHT_PHASE = true;
     public static final int DRIVE_TOLERANCE = 5;
-
-    // Arm Constants
-    public static final double ARM_SPEED = 1;
-    public static final boolean ARM_INVERT = false;
-    public static final boolean ARM_PHASE = true;
-    public static final int ARM_TOLERANCE = 0;
-    public static final int PLACE_COUNTS = 15000;
-    public static final int FLOOR_COUNTS = 33200;
-    public static final int RESET_COUNTS = 0;
+    public static final int STOP_DISTANCE = 4;
 
     // Cargo Arm Constants
     public static final double CARGO_ARM_SPEED = 0.45;

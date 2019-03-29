@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-public class Sleigh extends Subsystem {
+public class Pincer extends Subsystem {
 
     Solenoid piston;
 
-    public Sleigh() {
-        piston = new Solenoid(RobotMap.SLEIGH_ID);
+    public Pincer() {
+        piston = new Solenoid(RobotMap.PINCER_ID);
     }
 
     public void toggle() {
@@ -24,9 +24,13 @@ public class Sleigh extends Subsystem {
         piston.set(false);
     }
 
+    public boolean get() {
+        return piston.get();
+    }
+
     @Override
     protected void initDefaultCommand() {
-        // No default command
+
     }
 
 }

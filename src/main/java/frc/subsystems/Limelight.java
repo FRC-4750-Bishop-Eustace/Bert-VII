@@ -205,9 +205,16 @@ public class Limelight extends Subsystem {
 	}
 
 	/**
-	 * Configures the Limelight for driving
+	 * Configures the Limelight for forward driving
 	 */
-	public void drivingMode() {
+	public void forward() {
+		setStreamMode("main");
+	}
+
+	/**
+	 * Configures the Limelight for reverse driving
+	 */
+	public void reverse() {
 		setStreamMode("secondary");
 	}
 
