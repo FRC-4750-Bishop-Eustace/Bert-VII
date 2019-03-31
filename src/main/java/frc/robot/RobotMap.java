@@ -17,8 +17,6 @@ public class RobotMap {
     // Digital sensor ports (DIO)
     public static final int HATCH_SENSOR = 2;
     public static final int CARGO_SENSOR = 3;
-    public static final int ULTRASONIC_TRIGGER = 0;
-    public static final int ULTRASONIC_ECHO = 1;
 
     // Analog sensor ports (Analog)
     public static final int PRESSURE_SENSOR = 0;
@@ -48,15 +46,16 @@ public class RobotMap {
     public static final boolean RIGHT_INVERT = false;
     public static final boolean RIGHT_PHASE = true;
     public static final int DRIVE_TOLERANCE = 5;
-    public static final int STOP_DISTANCE = 4;
+    public static final double STOP_DISTANCE = 4.5;
 
     // Cargo Arm Constants
-    public static final double CARGO_ARM_SPEED = 0.45;
+    public static final double CARGO_ARM_SPEED = -0.45;
     public static final boolean CARGO_ARM_INVERT = false;
     public static final boolean CARGO_ARM_PHASE = true;
     public static final int CARGO_ARM_TOLERANCE = 0;
     public static final int CARGO_PLACE_COUNTS = 350;
-    public static final int CARGO_FLOOR_COUNTS = 1280;
+    public static final int CARGO_FLOOR_COUNTS = 1100;
+    public static final int CARGO_ROCKET_COUNTS = 550;
     public static final int CARGO_RESET_COUNTS = 0;
 
     // Talon SRX Constants
@@ -65,4 +64,8 @@ public class RobotMap {
 
     // Pressure Constants
     public static final double PRESSURE_CONST = 4.8;
+
+    // Lifter Ports (PCM)
+    public static final int FRONT_LIFTER = 4;
+    public static final int BACK_LIFTER = 5;
 }

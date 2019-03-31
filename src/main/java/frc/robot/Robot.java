@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.subsystems.CargoArm;
+import frc.subsystems.Lifter;
 import frc.subsystems.DriveTrain;
 import frc.subsystems.IMU;
 import frc.subsystems.Limelight;
@@ -15,13 +16,11 @@ import frc.subsystems.Pincer;
 import frc.subsystems.PressureSensor;
 import frc.subsystems.Pusher;
 import frc.subsystems.Sleigh;
-import frc.subsystems.Ultrasonics;
 
 public class Robot extends TimedRobot {
 
   // Initialize sensors
   public static Limelight limelight = new Limelight();
-  public static Ultrasonics ultrasonic = new Ultrasonics();
   public static IMU imu = new IMU();
   public static PressureSensor pressureSensor = new PressureSensor();
   public static ObjectSensor hatchDetector = new ObjectSensor(RobotMap.HATCH_SENSOR);
@@ -34,6 +33,7 @@ public class Robot extends TimedRobot {
   public static Pusher pusher = new Pusher();
   public static CargoArm cargoArm = new CargoArm();
   public static Sleigh sleigh = new Sleigh();
+  public static Lifter lifter = new Lifter();
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("dashboard");
 
@@ -92,8 +92,6 @@ public class Robot extends TimedRobot {
   }
 
   private void outputData() {
-    table.getEntry("distance").setNumber(ultrasonic.getInches());
-    table.getEntry("correct-distance").setBoolean(ultrasonic.getInches() < RobotMap.STOP_DISTANCE ? true : false);
     table.getEntry("time").setString(DriverStation.getInstance().getMatchTime() < 0 ? "0:00" : Math.floor(DriverStation.getInstance().getMatchTime() / 60) + ":" + (DriverStation.getInstance().getMatchTime() % 60 < 10 ? "0" : "") + Math.floor(DriverStation.getInstance().getMatchTime() % 60));
     table.getEntry("pressure").setNumber(pressureSensor.getPressure());
     table.getEntry("battery-voltage").setNumber(RobotController.getBatteryVoltage());

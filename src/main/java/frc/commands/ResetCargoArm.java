@@ -2,14 +2,15 @@ package frc.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 
 public class ResetCargoArm extends Command {
 
     boolean finished = false;
+    double speed;
 
-    public ResetCargoArm() {
+    public ResetCargoArm(double _speed) {
         requires(Robot.cargoArm);
+        speed = _speed;
     }
 
     @Override
@@ -20,7 +21,7 @@ public class ResetCargoArm extends Command {
     @Override
     protected void execute() {
         if (!Robot.cargoArm.getLimit()) {
-            Robot.cargoArm.run(-RobotMap.CARGO_ARM_SPEED);
+            Robot.cargoArm.run(speed);
         } else {
             Robot.cargoArm.stop();
             Robot.cargoArm.resetArm();
